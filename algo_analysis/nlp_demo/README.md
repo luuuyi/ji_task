@@ -53,6 +53,16 @@ cd /usr/local/ev_sdk
 python3 ji.py
 ```
 
+### 自动判断
+
+将auto/ev_sdk文件夹拷贝到/usr/local/ev_sdk，工程代码均在/usr/local/ev_sdk目录
+
+```
+# 执行下面命令开始推理。
+cd /usr/local/ev_sdk
+python3 ji.py
+```
+
 ## 4. 训练
 
 ### 数据准备
