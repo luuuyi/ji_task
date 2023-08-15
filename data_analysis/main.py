@@ -14,7 +14,7 @@ def test_cv_task(imga_path, imgb_path, output_path):
     config["data_set_type"] = "CV"
     config["pretreatment"] = {
         "fill_flag": 1,
-        "fill_args": {"rot": [100, 100, 200, 200]},
+        "fill_args": {"roi": [100, 100, 200, 200]},
 
         "hist_equa_flag": 1,
         "white_balance_flag": 1,
@@ -22,14 +22,14 @@ def test_cv_task(imga_path, imgb_path, output_path):
         "blur_flag": 1 
     }
     config["save_result"] = False
-    ret_json = const.RET_JSON
+    ret_json = json.loads(const.RET_JSON)
 
     imga = cv2.imread(imga_path, -1)
     imgb = cv2.imread(imgb_path, -1)
     # save_img = "result"
 
     # No.1
-    roi = config["pretreatment"]["fill_args"]
+    roi = config["pretreatment"]["fill_args"]["roi"]
     if config["pretreatment"]["fill_flag"]:
         imga = cv_task.fill(imga, imgb, roi)
         if config["save_result"]:
@@ -58,7 +58,7 @@ def test_cv_task(imga_path, imgb_path, output_path):
             cv2.imwrite(save_img, imga)
 
     # No.5
-    if config["pretreatment"]["ablur_flag"]:
+    if config["pretreatment"]["blur_flag"]:
         imga = cv_task.blur(imga)
         if config["save_result"]:
             save_img = f"result_blur.jpeg"
@@ -78,7 +78,13 @@ def test_nlp_task(input_str):
         "remove_duplicate_str_flag": 1 
     }
     config["show_result"] = True
-    ret_json = const.RET_JSON
+    ret_json = json.loads(const.RET_JSON)
+
+    # No.3
+    if config["pretreatment"]["remove_url_flag"]:
+        input_str = nlp_task.remove_url(input_str)
+        if config["show_result"]:
+            print(f"after remove_url: {input_str}")
 
     # No.1
     if config["pretreatment"]["remove_number_flag"]:
@@ -91,12 +97,6 @@ def test_nlp_task(input_str):
         input_str = nlp_task.remove_space(input_str)
         if config["show_result"]:
             print(f"after remove_space: {input_str}")
-
-    # No.3
-    if config["pretreatment"]["remove_url_flag"]:
-        input_str = nlp_task.remove_url(input_str)
-        if config["show_result"]:
-            print(f"after remove_url: {input_str}")
 
     # No.4
     input_str_list = [input_str] * 10
@@ -117,8 +117,8 @@ def test_speech_task(wave_file, output_path):
         "increase_sound_flag": 1,
         "increase_sound_args": {"inc": 10}
     }
-    config["save_result"] = True
-    ret_json = const.RET_JSON
+    config["save_result"] = False
+    ret_json = json.loads(const.RET_JSON)
 
     wave_data = AudioSegment.from_file(wave_file)
 
@@ -139,7 +139,7 @@ def test_speech_task(wave_file, output_path):
     # No.3
     inc = config["pretreatment"]["increase_sound_args"]["inc"]
     if config["pretreatment"]["increase_sound_flag"]:
-        wave_data = nlp_task.increase_sound(wave_data, inc)
+        wave_data = speech_task.increase_sound(wave_data, inc)
         if config["save_result"]:
             save_wav = f"result_increase_sound.wav"
             wave_data.export(save_wav, format="wav")
@@ -150,7 +150,7 @@ def test_speech_task(wave_file, output_path):
 
 if __name__ == "__main__":
     # for CV
-    imga, imgb, output_path = "testa.jpg", "testb.jpg", "task_result.jpg"
+    imga, imgb, output_path = "cv_task/test.jpeg", "cv_task/test.jpeg", "task_result.jpg"
     ret_json = test_cv_task(imga, imgb, output_path)
     with open("test_cv_task_result.json", "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2)
@@ -163,7 +163,7 @@ if __name__ == "__main__":
         json.dump(ret_json, fout, indent=2)
 
     # for SPEECH
-    wave_file, output_path = "test.wav", "task_result.wav"
-    ret_json = test_speech_task(wave_file)
+    wave_file, output_path = "speech_task/test.wav", "task_result.wav"
+    ret_json = test_speech_task(wave_file, output_path)
     with open("test_speech_task_result.json", "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2)

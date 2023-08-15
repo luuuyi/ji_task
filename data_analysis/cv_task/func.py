@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import random
 
-from ace import zmIceColor
+from cv_task.ace import zmIceColor
 
 def fill(imga, imgb, roi):
     assert imga.shape[-1] == 3, imga.shape
