@@ -7,8 +7,8 @@ def init():
     """Initialize model, implemented by algo developer, called by upper application
     Returns: model
     """
-    model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
-    tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
+    model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en", local_files_only=True, revision=None)
+    tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en", local_files_only=True, revision=None)
     translation = pipeline("translation_zh_to_en", model=model, tokenizer=tokenizer)
     return {
         "model": model,

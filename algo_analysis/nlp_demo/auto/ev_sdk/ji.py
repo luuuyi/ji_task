@@ -7,12 +7,12 @@ def init():
     """Initialize model, implemented by algo developer, called by upper application
     Returns: model
     """
-    ez_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
-    ez_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
+    ez_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-zh", local_files_only=True, revision=None)
+    ez_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh", local_files_only=True, revision=None)
     ez_translation = pipeline("translation_en_to_zh", model=ez_model, tokenizer=ez_tokenizer)
 
-    ze_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
-    ze_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
+    ze_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en", local_files_only=True, revision=None)
+    ze_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en", local_files_only=True, revision=None)
     ze_translation = pipeline("translation_zh_to_en", model=ze_model, tokenizer=ze_tokenizer)
     return {
         "ez_model": ez_model,
