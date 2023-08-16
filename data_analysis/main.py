@@ -153,17 +153,17 @@ if __name__ == "__main__":
     imga, imgb, output_path = "cv_task/test.jpeg", "cv_task/test.jpeg", "task_result.jpg"
     ret_json = test_cv_task(imga, imgb, output_path)
     with open("test_cv_task_result.json", "w", encoding="utf-8") as fout:
-        json.dump(ret_json, fout, indent=2)
+        json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
     # for NLP
     # 第四个函数做文本去重需要用到字符串数组，实现里面将输入字符串copy了10份
     input_str = "xxxx xxxx 123 https://baidu.com yyyy"
     ret_json = test_nlp_task(input_str)
     with open("test_nlp_task_result.json", "w", encoding="utf-8") as fout:
-        json.dump(ret_json, fout, indent=2)
+        json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
     # for SPEECH
     wave_file, output_path = "speech_task/test.wav", "task_result.wav"
     ret_json = test_speech_task(wave_file, output_path)
     with open("test_speech_task_result.json", "w", encoding="utf-8") as fout:
-        json.dump(ret_json, fout, indent=2)
+        json.dump(ret_json, fout, indent=2, ensure_ascii=False)

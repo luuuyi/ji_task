@@ -1,4 +1,4 @@
-python3 run_translation.py \
+python3 run_translation.pyc \
     --model_name_or_path Helsinki-NLP/opus-mt-en-zh \
     --do_train \
     --do_eval \
@@ -12,7 +12,7 @@ python3 run_translation.py \
     --overwrite_output_dir \
     --predict_with_generate
 
-python3 run_translation.py \
+python3 run_translation.pyc \
     --model_name_or_path Helsinki-NLP/opus-mt-zh-en \
     --do_train \
     --do_eval \
