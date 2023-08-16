@@ -11,9 +11,9 @@ def init():
     ez_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
     ez_translation = pipeline("translation_en_to_zh", model=ez_model, tokenizer=ez_tokenizer)
 
-    ze_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
-    ze_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
-    ze_translation = pipeline("translation_en_to_zh", model=ze_model, tokenizer=ze_tokenizer)
+    ze_model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
+    ze_tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
+    ze_translation = pipeline("translation_zh_to_en", model=ze_model, tokenizer=ze_tokenizer)
     return {
         "ez_model": ez_model,
         "ez_tokenizer": ez_tokenizer,
