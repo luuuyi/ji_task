@@ -24,48 +24,53 @@ def test_cv_task(imga_path, imgb_path, output_path):
     config["save_result"] = False
     ret_json = json.loads(const.RET_JSON)
 
-    imga = cv2.imread(imga_path, -1)
-    imgb = cv2.imread(imgb_path, -1)
-    # save_img = "result"
+    try:
+        imga = cv2.imread(imga_path, -1)
+        imgb = cv2.imread(imgb_path, -1)
+        # save_img = "result"
 
-    # No.1
-    roi = config["pretreatment"]["fill_args"]["roi"]
-    if config["pretreatment"]["fill_flag"]:
-        imga = cv_task.fill(imga, imgb, roi)
-        if config["save_result"]:
-            save_img = f"result_fill.jpeg"
-            cv2.imwrite(save_img, imga)
+        # No.1
+        roi = config["pretreatment"]["fill_args"]["roi"]
+        if config["pretreatment"]["fill_flag"]:
+            imga = cv_task.fill(imga, imgb, roi)
+            if config["save_result"]:
+                save_img = f"result_fill.jpeg"
+                cv2.imwrite(save_img, imga)
 
-    # No.2
-    if config["pretreatment"]["hist_equa_flag"]:
-        imga = cv_task.hist_equa(imga)
-        if config["save_result"]:
-            save_img = f"result_hist_equa.jpeg"
-            cv2.imwrite(save_img, imga)
+        # No.2
+        if config["pretreatment"]["hist_equa_flag"]:
+            imga = cv_task.hist_equa(imga)
+            if config["save_result"]:
+                save_img = f"result_hist_equa.jpeg"
+                cv2.imwrite(save_img, imga)
 
-    # No.3
-    if config["pretreatment"]["white_balance_flag"]:
-        imga = cv_task.white_balance(imga)
-        if config["save_result"]:
-            save_img = f"result_white_balance.jpeg"
-            cv2.imwrite(save_img, imga)
+        # No.3
+        if config["pretreatment"]["white_balance_flag"]:
+            imga = cv_task.white_balance(imga)
+            if config["save_result"]:
+                save_img = f"result_white_balance.jpeg"
+                cv2.imwrite(save_img, imga)
 
-    # No.4
-    if config["pretreatment"]["automatic_color_enhancement_flag"]:
-        imga = cv_task.automatic_color_enhancement(imga)
-        if config["save_result"]:
-            save_img = f"result_automatic_color_enhancement.jpeg"
-            cv2.imwrite(save_img, imga)
+        # No.4
+        if config["pretreatment"]["automatic_color_enhancement_flag"]:
+            imga = cv_task.automatic_color_enhancement(imga)
+            if config["save_result"]:
+                save_img = f"result_automatic_color_enhancement.jpeg"
+                cv2.imwrite(save_img, imga)
 
-    # No.5
-    if config["pretreatment"]["blur_flag"]:
-        imga = cv_task.blur(imga)
-        if config["save_result"]:
-            save_img = f"result_blur.jpeg"
-            cv2.imwrite(save_img, imga)
+        # No.5
+        if config["pretreatment"]["blur_flag"]:
+            imga = cv_task.blur(imga)
+            if config["save_result"]:
+                save_img = f"result_blur.jpeg"
+                cv2.imwrite(save_img, imga)
 
-    cv2.imwrite(output_path, imga)
-    ret_json["data"]["output_path"] = output_path
+        cv2.imwrite(output_path, imga)
+        ret_json["data"]["output_path"] = output_path
+    except Exception as e:
+        ret_json["code"]    = -1
+        ret_json["message"] = f"{e}"
+
     return ret_json
 
 def test_nlp_task(input_str):
@@ -80,32 +85,36 @@ def test_nlp_task(input_str):
     config["show_result"] = True
     ret_json = json.loads(const.RET_JSON)
 
-    # No.3
-    if config["pretreatment"]["remove_url_flag"]:
-        input_str = nlp_task.remove_url(input_str)
-        if config["show_result"]:
-            print(f"after remove_url: {input_str}")
+    try:
+        # No.3
+        if config["pretreatment"]["remove_url_flag"]:
+            input_str = nlp_task.remove_url(input_str)
+            if config["show_result"]:
+                print(f"after remove_url: {input_str}")
 
-    # No.1
-    if config["pretreatment"]["remove_number_flag"]:
-        input_str = nlp_task.remove_number(input_str)
-        if config["show_result"]:
-            print(f"after remove_number: {input_str}")
+        # No.1
+        if config["pretreatment"]["remove_number_flag"]:
+            input_str = nlp_task.remove_number(input_str)
+            if config["show_result"]:
+                print(f"after remove_number: {input_str}")
 
-    # No.2
-    if config["pretreatment"]["remove_space_flag"]:
-        input_str = nlp_task.remove_space(input_str)
-        if config["show_result"]:
-            print(f"after remove_space: {input_str}")
+        # No.2
+        if config["pretreatment"]["remove_space_flag"]:
+            input_str = nlp_task.remove_space(input_str)
+            if config["show_result"]:
+                print(f"after remove_space: {input_str}")
 
-    # No.4
-    input_str_list = [input_str] * 10
-    if config["pretreatment"]["remove_duplicate_str_flag"]:
-        input_str_list = nlp_task.remove_duplicate_str(input_str_list)
-        if config["show_result"]:
-            print(f"after remove_duplicate_str: {input_str_list}")
+        # No.4
+        input_str_list = [input_str] * 10
+        if config["pretreatment"]["remove_duplicate_str_flag"]:
+            input_str_list = nlp_task.remove_duplicate_str(input_str_list)
+            if config["show_result"]:
+                print(f"after remove_duplicate_str: {input_str_list}")
 
-    ret_json["data"]["output_str"] = input_str_list
+        ret_json["data"]["output_str"] = input_str_list
+    except Exception as e:
+        ret_json["code"]    = -1
+        ret_json["message"] = f"{e}"
     return ret_json
 
 def test_speech_task(wave_file, output_path):
@@ -120,32 +129,36 @@ def test_speech_task(wave_file, output_path):
     config["save_result"] = False
     ret_json = json.loads(const.RET_JSON)
 
-    wave_data = AudioSegment.from_file(wave_file)
+    try:
+        wave_data = AudioSegment.from_file(wave_file)
 
-    # No.1
-    if config["pretreatment"]["denoise_flag"]:
-        wave_data = speech_task.denoise(wave_data)
-        if config["save_result"]:
-            save_wav = f"result_denoise.wav"
-            wave_data.export(save_wav, format="wav")
+        # No.1
+        if config["pretreatment"]["denoise_flag"]:
+            wave_data = speech_task.denoise(wave_data)
+            if config["save_result"]:
+                save_wav = f"result_denoise.wav"
+                wave_data.export(save_wav, format="wav")
 
-    # No.2
-    if config["pretreatment"]["remove_silence_flag"]:
-        wave_data = speech_task.remove_silence(wave_data)
-        if config["save_result"]:
-            save_wav = f"result_remove_silence.wav"
-            wave_data.export(save_wav, format="wav")
+        # No.2
+        if config["pretreatment"]["remove_silence_flag"]:
+            wave_data = speech_task.remove_silence(wave_data)
+            if config["save_result"]:
+                save_wav = f"result_remove_silence.wav"
+                wave_data.export(save_wav, format="wav")
 
-    # No.3
-    inc = config["pretreatment"]["increase_sound_args"]["inc"]
-    if config["pretreatment"]["increase_sound_flag"]:
-        wave_data = speech_task.increase_sound(wave_data, inc)
-        if config["save_result"]:
-            save_wav = f"result_increase_sound.wav"
-            wave_data.export(save_wav, format="wav")
+        # No.3
+        inc = config["pretreatment"]["increase_sound_args"]["inc"]
+        if config["pretreatment"]["increase_sound_flag"]:
+            wave_data = speech_task.increase_sound(wave_data, inc)
+            if config["save_result"]:
+                save_wav = f"result_increase_sound.wav"
+                wave_data.export(save_wav, format="wav")
 
-    wave_data.export(output_path, format="wav")
-    ret_json["data"]["output_path"] = output_path
+        wave_data.export(output_path, format="wav")
+        ret_json["data"]["output_path"] = output_path
+    except Exception as e:
+        ret_json["code"]    = -1
+        ret_json["message"] = f"{e}"
     return ret_json
 
 if __name__ == "__main__":
