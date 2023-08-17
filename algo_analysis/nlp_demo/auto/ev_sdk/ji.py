@@ -29,20 +29,28 @@ def process(model=None, input_data=None, args=None, ** kwargs):
     Returns: process json result
     """
     # Process here
-    if (input_data[0] >= "a" and input_data[0] <= "z") or (input_data[0] >= "A" and input_data[0] <= "Z"):
-        print("english to chinese mode")
-        translation = model["ez_translation"]
-    else:
-        print("chinese to english mode")
-        translation = model["ze_translation"] 
+    try:
+        if (input_data[0] >= "a" and input_data[0] <= "z") or (input_data[0] >= "A" and input_data[0] <= "Z"):
+            print("english to chinese mode")
+            translation = model["ez_translation"]
+        else:
+            print("chinese to english mode")
+            translation = model["ze_translation"] 
+        translated_text = translation(input_data, max_length=40)[0]['translation_text']
+        message = "Success"
+        code    = 0
+    except Exception as e:
+        message         = f"{e}"
+        code            = -1
+        translated_text = ""
 
-    translated_text = translation(input_data, max_length=40)[0]['translation_text']
     results = {
-        "code": 0,
+        "code": code,
         "output_data":
         {
             "result": translated_text
-        }
+        },
+        "message": message
     }
     results = json.dumps(results, indent=4, ensure_ascii=False)
 

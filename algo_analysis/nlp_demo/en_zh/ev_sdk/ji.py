@@ -21,15 +21,23 @@ def process(model=None, input_data=None, args=None, ** kwargs):
     Returns: process json result
     """
     # Process here
-    translation = model["translation"]
-    translated_text = translation(input_data, max_length=40)[0]['translation_text']
+    try:
+        translation = model["translation"]
+        translated_text = translation(input_data, max_length=40)[0]['translation_text']
+        message = "Success"
+        code    = 0
+    except Exception as e:
+        message         = f"{e}"
+        code            = -1
+        translated_text = ""
 
     results = {
-        "code": 0,
+        "code": code,
         "output_data":
         {
             "result": translated_text
-        }
+        },
+        "message": message
     }
     results = json.dumps(results, indent=4, ensure_ascii=False)
 
