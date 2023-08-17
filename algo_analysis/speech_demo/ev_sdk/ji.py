@@ -34,7 +34,7 @@ def process(model=None, input_data=None, args=None, ** kwargs):
     except Exception as e:
         message         = f"{e}"
         code            = 1
-        translated_text = ""
+        text            = ""
 
     results = {
         "code": code,
