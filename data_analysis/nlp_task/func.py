@@ -15,11 +15,16 @@ def remove_space(input_str):
             new_string += char
     return new_string
 
+# def remove_url(input_str):
+#     # https://zhuanlan.zhihu.com/p/593473449
+#     # import ipdb; ipdb.set_trace()
+#     input_str = re.sub(r'^(https:\S+)', '', input_str)
+#     input_str = re.sub(r'[a-zA-Z]+://[^\s]*', '', input_str)
+#     return input_str
+
 def remove_url(input_str):
-    # https://zhuanlan.zhihu.com/p/593473449
-    # import ipdb; ipdb.set_trace()
-    input_str = re.sub(r'^(https:\S+)', '', input_str)
-    input_str = re.sub(r'[a-zA-Z]+://[^\s]*', '', input_str)
+    # https://regex101.com/r/NmVGOo/8
+    input_str = re.sub(r"https?://[\w.\-/\=\?:]+", '', input_str)
     return input_str
 
 def remove_duplicate_str(str_list):

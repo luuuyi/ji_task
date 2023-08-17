@@ -9,18 +9,10 @@ import cv_task.func as cv_task
 import nlp_task.func as nlp_task
 import speech_task.func as speech_task
 
-def test_cv_task(imga_path, imgb_path, output_path):
+def test_cv_task(imga_path, imgb_path, output_path, args):
     config = json.loads(const.EV_AUTO_TEST_CONFIG_PARAMS)
     config["data_set_type"] = "CV"
-    config["pretreatment"] = {
-        "fill_flag": 1,
-        "fill_args": {"roi": [100, 100, 200, 200]},
-
-        "hist_equa_flag": 1,
-        "white_balance_flag": 1,
-        "automatic_color_enhancement_flag": 1,
-        "blur_flag": 1 
-    }
+    config["pretreatment"].update(args)
     config["save_result"] = False
     ret_json = json.loads(const.RET_JSON)
 
@@ -73,15 +65,10 @@ def test_cv_task(imga_path, imgb_path, output_path):
 
     return ret_json
 
-def test_nlp_task(input_str):
+def test_nlp_task(input_str, args):
     config = json.loads(const.EV_AUTO_TEST_CONFIG_PARAMS)
     config["data_set_type"] = "NLP"
-    config["pretreatment"] = {
-        "remove_number_flag": 1,
-        "remove_space_flag": 1,
-        "remove_url_flag": 1,
-        "remove_duplicate_str_flag": 1 
-    }
+    config["pretreatment"].update(args)
     config["show_result"] = True
     ret_json = json.loads(const.RET_JSON)
 
@@ -117,15 +104,10 @@ def test_nlp_task(input_str):
         ret_json["message"] = f"{e}"
     return ret_json
 
-def test_speech_task(wave_file, output_path):
+def test_speech_task(wave_file, output_path, args):
     config = json.loads(const.EV_AUTO_TEST_CONFIG_PARAMS)
     config["data_set_type"] = "SPEECH"
-    config["pretreatment"] = {
-        "denoise_flag": 1,
-        "remove_silence_flag": 1,
-        "increase_sound_flag": 1,
-        "increase_sound_args": {"inc": 10}
-    }
+    config["pretreatment"].update(args)
     config["save_result"] = False
     ret_json = json.loads(const.RET_JSON)
 
@@ -164,19 +146,40 @@ def test_speech_task(wave_file, output_path):
 if __name__ == "__main__":
     # for CV
     imga, imgb, output_path = "cv_task/test.jpeg", "cv_task/test.jpeg", "task_result.jpg"
-    ret_json = test_cv_task(imga, imgb, output_path)
+    args = {
+        "fill_flag": 1,
+        "fill_args": {"roi": [100, 100, 200, 200]},
+
+        "hist_equa_flag": 1,
+        "white_balance_flag": 1,
+        "automatic_color_enhancement_flag": 1,
+        "blur_flag": 1 
+    }
+    ret_json = test_cv_task(imga, imgb, output_path, args)
     with open("test_cv_task_result.json", "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
     # for NLP
     # 第四个函数做文本去重需要用到字符串数组，实现里面将输入字符串copy了10份
     input_str = "xxxx xxxx 123 https://baidu.com yyyy"
-    ret_json = test_nlp_task(input_str)
+    args = {
+        "remove_number_flag": 1,
+        "remove_space_flag": 1,
+        "remove_url_flag": 1,
+        "remove_duplicate_str_flag": 1 
+    }
+    ret_json = test_nlp_task(input_str, args)
     with open("test_nlp_task_result.json", "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
     # for SPEECH
     wave_file, output_path = "speech_task/test.wav", "task_result.wav"
-    ret_json = test_speech_task(wave_file, output_path)
+    args = {
+        "denoise_flag": 1,
+        "remove_silence_flag": 1,
+        "increase_sound_flag": 1,
+        "increase_sound_args": {"inc": 10}
+    }
+    ret_json = test_speech_task(wave_file, output_path, args)
     with open("test_speech_task_result.json", "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2, ensure_ascii=False)

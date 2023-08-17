@@ -35,9 +35,9 @@ pip3 install -r requirements.txt
 
 执行下列命令按顺序调用三种task，并且会在本地存下`xxx_result.json`的结果文件
 
-需要注意修改`line153, line160, line166`部分的输入数据物料；
+需要注意修改`line148, line164, line176`部分的输入数据物料；
 
-需要注意修改`line15, line75, line115`部分的是否开启相关处理操作的flag；
+需要注意修改`line149, line165, line177`部分的是否开启相关处理操作的flag；
 
 ```
 cd init_task/data_analysis
