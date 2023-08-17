@@ -24,17 +24,25 @@ def process(model=None, input_data=None, args=None, ** kwargs):
     Returns: process json result
     """
     # Process here
-    predictor = model["predictor"]
-    input_data = requests.get(input_data).content
-    result = predictor.predict(audio_data=input_data, use_pun=False)
-    score, text = result['score'], result['text']
+    try:
+        predictor = model["predictor"]
+        input_data = requests.get(input_data).content
+        result = predictor.predict(audio_data=input_data, use_pun=False)
+        score, text = result['score'], result['text']
+        message = "Success"
+        code    = 0
+    except Exception as e:
+        message         = f"{e}"
+        code            = 1
+        translated_text = ""
 
     results = {
-        "code": 0,
+        "code": code,
         "output_data":
         {
             "result": text
-        }
+        },
+        "message": message
     }
     results = json.dumps(results, indent=4, ensure_ascii=False)
 

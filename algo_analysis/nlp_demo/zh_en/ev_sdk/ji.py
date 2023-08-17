@@ -25,10 +25,10 @@ def process(model=None, input_data=None, args=None, ** kwargs):
         translation = model["translation"]
         translated_text = translation(input_data, max_length=40)[0]['translation_text']
         message = "Success"
-        code    = 1
+        code    = 0
     except Exception as e:
         message         = f"{e}"
-        code            = -1
+        code            = 1
         translated_text = ""
 
     results = {
