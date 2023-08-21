@@ -43,3 +43,26 @@ pip3 install -r requirements.txt
 cd init_task/data_analysis
 python3 main.py
 ```
+
+flag代表处理开关，1表示打开，0表示关闭
+
+CV任务
+
+- fill_flag：填充，fill_args.roi 表示a图片中的roi区域；
+- hist_equa_flag：直方图均衡化；
+- white_balance_flag：自动白平衡；
+- automatic_color_enhancement_flag：自动色彩均衡
+- blur_flag：平滑滤波
+
+NLP任务
+
+- remove_number_flag：去除数字；
+- remove_space_flag：去除多余空格；
+- remove_url_flag：去除url链接；
+- remove_duplicate_str_flag：去除重复文本（多行！）
+
+SPEECH任务
+
+- denoise_flag：降噪开关
+- remove_silence_flag：消除静音段
+- increase_sound_flag：增强/减弱音量，increase_sound_args.inc表示变量
