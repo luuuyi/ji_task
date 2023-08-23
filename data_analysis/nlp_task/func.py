@@ -27,6 +27,11 @@ def remove_url(input_str):
     input_str = re.sub(r"https?://[\w.\-/\=\?:]+", '', input_str)
     return input_str
 
+def remove_words(input_str, words=[]):
+    for w in words:
+        input_str = input_str.replace(w, "")
+    return input_str
+
 def remove_duplicate_str(str_list):
     assert isinstance(str_list, list)
     data = set()
@@ -48,6 +53,9 @@ if __name__ == "__main__":
     # input_str = remove_url(input_str)
     # print(input_str)
 
-    str_list = [input_str] * 10
-    str_list = remove_duplicate_str(str_list)
-    print(str_list)
+    # str_list = [input_str] * 10
+    # str_list = remove_duplicate_str(str_list)
+    # print(str_list)
+
+    input_str = remove_words(input_str, ["xxx"])
+    print(input_str)

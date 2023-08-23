@@ -4,7 +4,7 @@ import random
 
 from cv_task.ace import zmIceColor
 
-def fill(imga, imgb, roi):
+def fill_old(imga, imgb, roi):
     assert imga.shape[-1] == 3, imga.shape
     # check valid
     assert len(roi) == 4, roi
@@ -23,6 +23,21 @@ def fill(imga, imgb, roi):
     imgb_s = cv2.resize(imgb, (roi_w, roi_h))
     imga[roi[1]:roi[3], roi[0]:roi[2]] = imgb_s
     return imga
+
+def fill(imga, wh):
+    assert imga.shape[-1] == 3, imga.shape
+    # check valid
+    assert len(wh) == 2, wh
+
+    h_a, w_a, c_a = imga.shape
+    w_t, h_t      = wh
+    if h_a >= h_t and w_a >= w_t:
+        return imga
+
+    zeros_img = np.zeros((h_t, w_t, c_a), imga.dtype)
+    zeros_img[:h_a, :w_a, ...] = imga
+
+    return zeros_img
 
 def hist_equa(img):
     # https://www.jb51.net/article/264125.htm
@@ -82,11 +97,11 @@ if __name__ == "__main__":
     imga = cv2.imread("test.jpeg", -1)
     imgb = cv2.imread("test.jpeg", -1)
     save_img = "result.jpeg"
-    # import ipdb; ipdb.set_trace()
+    import ipdb; ipdb.set_trace()
 
     # No.1
     # roi = [100, 100, 200, 200]
-    # ret_image = fill(imga, imgb, roi)
+    # ret_image = fill_old(imga, imgb, roi)
     # cv2.imwrite(save_img, ret_image)
 
     # No.2
@@ -104,3 +119,8 @@ if __name__ == "__main__":
     # No.5
     # ret_image = blur(imga)
     # cv2.imwrite(save_img, ret_image)
+
+    # No.6
+    wh = [2000, 2000]
+    ret_image = fill(imga, wh)
+    cv2.imwrite(save_img, ret_image)
