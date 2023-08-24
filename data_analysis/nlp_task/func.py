@@ -11,7 +11,7 @@ def remove_number(input_str):
 def remove_space(input_str):
     new_string = ""
     for char in input_str:
-        if char != " ":
+        if char != " " and char != "\t":
             new_string += char
     return new_string
 

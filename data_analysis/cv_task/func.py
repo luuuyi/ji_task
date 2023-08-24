@@ -31,7 +31,7 @@ def fill(imga, wh):
 
     h_a, w_a, c_a = imga.shape
     w_t, h_t      = wh
-    if h_a >= h_t and w_a >= w_t:
+    if h_a >= h_t or w_a >= w_t:
         return imga
 
     zeros_img = np.zeros((h_t, w_t, c_a), imga.dtype)
