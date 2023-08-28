@@ -21,7 +21,7 @@ EV_AUTO_TEST_CONFIG_PARAMS = \
             "remove_url_flag": 1,
             "remove_duplicate_str_flag": 1,
             "remove_words_flag": 1,
-            "remove_words_args": {"words": ["hello", ]},
+            "remove_words_args": {"words": ["hello"]},
 
 
             "denoise_flag": 1,

@@ -47,6 +47,7 @@ def _process_cv(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
+    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
     return ret_json, out_file_list
 
 def _process_nlp(tmp_input_dir, tmp_output_dir, args):
@@ -78,6 +79,7 @@ def _process_nlp(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
+    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
     return ret_json, out_file_list
 
 def _process_speech(tmp_input_dir, tmp_output_dir, args):
@@ -109,9 +111,21 @@ def _process_speech(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
+    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
     return ret_json, out_file_list
 
 def process_interface(args):
+    print(f"current config: {args}")
+    env_args = os.environ.get("EV_AUTO_TEST_CONFIG_PARAMS")
+    if env_args:
+        print(f"use env EV_AUTO_TEST_CONFIG_PARAMS to update args")
+        args = env_args
+    else:
+        print(f"detect no env args!")
+    print(f"after read env, config is: {args}")
+    device = os.environ.get("EV_AUTO_TEST_DEVICE")
+    print(f"runtime device is: {device}")
+
     assert "input_path" in args and args["input_path"].endswith(".zip"), args
     assert "output_path" in args and args["output_path"].endswith(".zip"), args
     assert "data_set_type" in args and args["data_set_type"] in ("NLP", "SPEECH", "CV"), args
@@ -135,7 +149,12 @@ def process_interface(args):
     elif args["data_set_type"] == "SPEECH":
         ret_json, out_file_list = _process_speech(tmp_input_dir, tmp_output_dir, args["pretreatment"])
     
-    ret_file = "result.json"
+    ret_file = os.environ.get("EV_TEST_MESSAGE_SAVE_PATH")
+    ret_dir  = osp.dirname(ret_file)
+    print(f"ret_file: {ret_file}; ret_dir: {ret_dir}")
+    if not osp.exists(ret_dir):
+        print(f"{ret_dir} not exists, create it!")
+        os.makedirs(ret_dir)
     with open(ret_file, "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
