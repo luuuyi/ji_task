@@ -47,7 +47,7 @@ def _process_cv(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID", const.EV_ALGORITHM_TEST_TASK_ID))
     return ret_json, out_file_list
 
 def _process_nlp(tmp_input_dir, tmp_output_dir, args):
@@ -79,7 +79,7 @@ def _process_nlp(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID", const.EV_ALGORITHM_TEST_TASK_ID))
     return ret_json, out_file_list
 
 def _process_speech(tmp_input_dir, tmp_output_dir, args):
@@ -111,7 +111,7 @@ def _process_speech(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID", const.EV_ALGORITHM_TEST_TASK_ID))
     return ret_json, out_file_list
 
 def process_interface(args):
@@ -124,7 +124,8 @@ def process_interface(args):
     else:
         print(f"detect no env args!")
     print(f"after read env, config is: {args}")
-    device = os.environ.get("EV_AUTO_TEST_DEVICE")
+
+    device = os.environ.get("EV_AUTO_TEST_DEVICE", const.EV_AUTO_TEST_DEVICE)
     print(f"runtime device is: {device}")
 
     assert "input_path" in args and args["input_path"].endswith(".zip"), args
@@ -150,7 +151,7 @@ def process_interface(args):
     elif args["data_set_type"] == "SPEECH":
         ret_json, out_file_list = _process_speech(tmp_input_dir, tmp_output_dir, args["pretreatment"])
     
-    ret_file = os.environ.get("EV_TEST_MESSAGE_SAVE_PATH")
+    ret_file = os.environ.get("EV_TEST_MESSAGE_SAVE_PATH", const.EV_TEST_MESSAGE_SAVE_PATH)
     ret_dir  = osp.dirname(ret_file)
     print(f"ret_file: {ret_file}; ret_dir: {ret_dir}")
     if not osp.exists(ret_dir):
@@ -159,6 +160,10 @@ def process_interface(args):
     with open(ret_file, "w", encoding="utf-8") as fout:
         json.dump(ret_json, fout, indent=2, ensure_ascii=False)
 
+    output_path_dir = osp.dirname(args["output_path"])
+    if not osp.exists(output_path_dir):
+        print(f"{output_path_dir} not exists, create it!")
+        os.makedirs(output_path_dir)
     with zipfile.ZipFile(args["output_path"], "w") as zip_ref:
         for _file in out_file_list:
             zip_ref.write(_file)

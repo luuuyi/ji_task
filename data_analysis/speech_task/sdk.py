@@ -7,16 +7,16 @@ def call_speech_task(input_path, output_path, args):
         wave_data = AudioSegment.from_file(input_path)
 
         # No.1
-        if args["denoise_flag"]:
+        if args.get("denoise_flag", 0):
             wave_data = speech_task_func.denoise(wave_data)
 
         # No.2
-        if args["remove_silence_flag"]:
+        if args.get("remove_silence_flag", 0):
             wave_data = speech_task_func.remove_silence(wave_data)
 
         # No.3
-        inc = args["increase_sound_args"]["inc"]
-        if args["increase_sound_flag"]:
+        if args.get("increase_sound_flag", 0):
+            inc = args["increase_sound_args"]["inc"]
             wave_data = speech_task_func.increase_sound(wave_data, inc)
 
         wave_data.export(output_path)

@@ -1,5 +1,5 @@
-EV_ALGORITHM_TEST_TASK_ID  = 123
-EV_TEST_MESSAGE_SAVE_PATH  = "/app/test/test_id/result.json"
+EV_ALGORITHM_TEST_TASK_ID  = 61123
+EV_TEST_MESSAGE_SAVE_PATH  = "/app/test/test_id61/result.json"
 EV_AUTO_TEST_CONFIG_PARAMS = \
     '''
     {

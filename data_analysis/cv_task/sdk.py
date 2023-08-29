@@ -6,36 +6,36 @@ def call_cv_task(imga_path, output_path, args):
         imga = cv2.imread(imga_path, -1)
 
         # No.1
-        roi = args["fill_args"]["roi"]
-        if args["fill_flag"]:
+        if args.get("fill_flag", 0):
+            roi = args["fill_args"]["roi"]
             imga = cv_task_func.fill(imga, roi)
             # if config["save_result"]:
             #     save_img = f"result_fill.jpeg"
             #     cv2.imwrite(save_img, imga)
 
         # No.2
-        if args["hist_equa_flag"]:
+        if args.get("hist_equa_flag", 0):
             imga = cv_task_func.hist_equa(imga)
             # if config["save_result"]:
             #     save_img = f"result_hist_equa.jpeg"
             #     cv2.imwrite(save_img, imga)
 
         # No.3
-        if args["white_balance_flag"]:
+        if args.get("white_balance_flag", 0):
             imga = cv_task_func.white_balance(imga)
             # if config["save_result"]:
             #     save_img = f"result_white_balance.jpeg"
             #     cv2.imwrite(save_img, imga)
 
         # No.4
-        if args["automatic_color_enhancement_flag"]:
+        if args.get("automatic_color_enhancement_flag", 0):
             imga = cv_task_func.automatic_color_enhancement(imga)
             # if config["save_result"]:
             #     save_img = f"result_automatic_color_enhancement.jpeg"
             #     cv2.imwrite(save_img, imga)
 
         # No.5
-        if args["blur_flag"]:
+        if args.get("blur_flag", 0):
             imga = cv_task_func.blur(imga)
             # if config["save_result"]:
             #     save_img = f"result_blur.jpeg"
