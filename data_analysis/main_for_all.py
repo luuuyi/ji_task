@@ -47,7 +47,7 @@ def _process_cv(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
     return ret_json, out_file_list
 
 def _process_nlp(tmp_input_dir, tmp_output_dir, args):
@@ -79,7 +79,7 @@ def _process_nlp(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
     return ret_json, out_file_list
 
 def _process_speech(tmp_input_dir, tmp_output_dir, args):
@@ -111,13 +111,14 @@ def _process_speech(tmp_input_dir, tmp_output_dir, args):
 
     ret_json["code"]    = code
     ret_json["message"] = message
-    ret_json["id"]      = os.environ.get("EV_ALGORITHM_TEST_TASK_ID")
+    ret_json["id"]      = int(os.environ.get("EV_ALGORITHM_TEST_TASK_ID"))
     return ret_json, out_file_list
 
 def process_interface(args):
     print(f"current config: {args}")
     env_args = os.environ.get("EV_AUTO_TEST_CONFIG_PARAMS")
     if env_args:
+        env_args = json.loads(env_args)
         print(f"use env EV_AUTO_TEST_CONFIG_PARAMS to update args")
         args = env_args
     else:
